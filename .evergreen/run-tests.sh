@@ -3,10 +3,6 @@
 set +x
 set -eu
 
-# Fetch secrets
-bash ${DRIVERS_TOOLS}/.evergreen/auth_aws/setup-secrets.sh
-source ${DRIVERS_TOOLS}/.evergreen/auth_aws/secrets-export.sh
-
 # Set up env
 pushd ..
 git clone https://github.com/mongodb/mongo-python-driver
@@ -19,6 +15,8 @@ pip install "./mongo-python-driver[test]"
 pip install -e ./src
 
 pushd ./mongo-python-driver
-.evergreen/scripts/run-mongodb-aws-test.sh regular
+bash ./.evergreen/just.sh setup-tests auth_aws $1
+python -m pytest -v -m auth_aws
+
 popd
 popd
