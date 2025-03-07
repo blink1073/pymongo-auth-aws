@@ -17,6 +17,7 @@ pip install -e ./src
 pushd ./mongo-python-driver
 bash ./.evergreen/just.sh run-server auth_aws
 bash ./.evergreen/just.sh setup-tests auth_aws regular
+source ./.evergreen/scripts/test-env.sh
 python -m pytest -v -m auth_aws
 
 popd
